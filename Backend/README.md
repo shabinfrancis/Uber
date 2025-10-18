@@ -133,3 +133,67 @@ Content-Type: application/json
   "message": "Invalid email or password"
 }
 ```
+
+## /users/profile Endpoint Documentation
+
+- **URL:** `GET /users/profile`
+- **Description:** This endpoint retrieves the profile of the currently authenticated user. It requires a valid authentication token. The authentication middleware (`authMiddleware.authUser`) verifies the token and attaches the user information to the request.
+
+### Responses
+
+- **Success (200 OK):**
+  - Returns a JSON object representing the authenticated user.
+
+- **Error (401 Unauthorized):**
+  - Returned if the provided token is missing or invalid.
+
+### Example Request
+
+```
+GET /users/profile
+Authorization: Bearer <JWT Token>
+```
+
+### Example Response
+
+```
+{
+  "_id": "user_id",
+  "fullname": {
+    "firstname": "John",
+    "lastname": "Doe"
+  },
+  "email": "john.doe@example.com"
+  // other fields...
+}
+```
+
+---
+
+## /users/logout Endpoint Documentation
+
+- **URL:** `GET /users/logout`
+- **Description:** This endpoint logs out the authenticated user. It clears the authentication cookie and blacklists the current token, preventing its further use.
+
+### Requirements
+
+- Requires authentication via `authMiddleware.authUser`.
+
+### Responses
+
+- **Success (200 OK):**
+  - Returns a JSON message confirming that the user has been logged out.
+
+### Example Request
+
+```
+GET /users/logout
+```
+
+### Example Response
+
+```
+{
+  "message": "Logged out"
+}
+```
