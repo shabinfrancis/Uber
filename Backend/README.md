@@ -197,3 +197,213 @@ GET /users/logout
   "message": "Logged out"
 }
 ```
+
+---
+
+# /captains Endpoint Documentation
+
+This document provides details about the endpoints available for captains. These endpoints allow captains to register, login, retrieve their profile, and logout.
+
+## /captains/register Endpoint Documentation
+
+- **URL:** `POST /captains/register`
+- **Description:** This endpoint allows a new captain to register by providing the required personal, authentication, and vehicle details. It validates the email, first name, password, and vehicle information (color, plate, capacity, and vehicle type).
+
+### Request Body
+
+The endpoint expects a JSON payload with the following structure:
+
+- **fullname:** (object)
+  - **firstname:** (string, required) Minimum of 3 characters.
+  - **lastname:** (string, optional) Minimum of 3 characters if provided.
+- **email:** (string, required) Must be a valid email address.
+- **password:** (string, required) Must be at least 6 characters long.
+- **vehicle:** (object)
+  - **color:** (string, required) Minimum of 3 characters.
+  - **plate:** (string, required) Minimum of 3 characters.
+  - **capacity:** (number, required) Must be at least 1.
+  - **vehicleType:** (string, required) Must be one of `car`, `motorcycle`, or `auto`.
+
+### Responses
+
+- **Success (201 Created):**
+  - Returns a JSON object containing a `token` (JWT token) and the created `captain` object.
+
+- **Error (400 Bad Request):**
+  - Returns validation error details if input data does not meet requirements.
+  - Returns a message "Captain already exist" if a captain with the provided email is already registered.
+
+### Example Request
+
+```
+POST /captains/register
+Content-Type: application/json
+
+{
+  "fullname": {
+    "firstname": "Jane",
+    "lastname": "Doe"
+  },
+  "email": "jane.doe@example.com",
+  "password": "securePass123",
+  "vehicle": {
+    "color": "Red",
+    "plate": "XYZ 1234",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+}
+```
+
+### Example Response
+
+```
+{
+  "token": "<JWT Token>",
+  "captain": {
+    "_id": "captain_id",
+    "fullname": {
+      "firstname": "Jane",
+      "lastname": "Doe"
+    },
+    "email": "jane.doe@example.com",
+    "vehicle": {
+      "color": "Red",
+      "plate": "XYZ 1234",
+      "capacity": 4,
+      "vehicleType": "car"
+    }
+    // other fields...
+  }
+}
+```
+
+---
+
+## /captains/login Endpoint Documentation
+
+- **URL:** `POST /captains/login`
+- **Description:** This endpoint authenticates an existing captain using their email and password. On successful authentication, it returns a JSON object containing a JWT token and captain details, and sets a cookie with the token.
+
+### Request Body
+
+The endpoint expects a JSON payload with the following structure:
+
+- **email:** (string, required) Must be a valid email address.
+- **password:** (string, required) Must be at least 6 characters long.
+
+### Responses
+
+- **Success (200 OK):**
+  - Returns a JSON object containing a `token` (JWT token) and the authenticated `captain` object.
+  - A cookie named `token` is set in the response.
+
+- **Error (400 Bad Request):**
+  - Returns validation error details if the input data does not meet requirements.
+
+- **Error (401 Unauthorized):**
+  - Returns a message "Invalid email or password" if authentication fails.
+
+### Example Request
+
+```
+POST /captains/login
+Content-Type: application/json
+
+{
+  "email": "jane.doe@example.com",
+  "password": "securePass123"
+}
+```
+
+### Example Response
+
+```
+{
+  "token": "<JWT Token>",
+  "captain": {
+    "_id": "captain_id",
+    "fullname": {
+      "firstname": "Jane",
+      "lastname": "Doe"
+    },
+    "email": "jane.doe@example.com"
+    // other fields...
+  }
+}
+```
+
+---
+
+## /captains/profile Endpoint Documentation
+
+- **URL:** `GET /captains/profile`
+- **Description:** This endpoint retrieves the profile of the currently authenticated captain. It requires a valid authentication token verified by the `authMiddleware.authCaptain` middleware.
+
+### Responses
+
+- **Success (200 OK):**
+  - Returns a JSON object with the captain's profile information.
+
+- **Error (401 Unauthorized):**
+  - Returned if the token is missing or invalid.
+
+### Example Request
+
+```
+GET /captains/profile
+Authorization: Bearer <JWT Token>
+```
+
+### Example Response
+
+```
+{
+  "captain": {
+    "_id": "captain_id",
+    "fullname": {
+      "firstname": "Jane",
+      "lastname": "Doe"
+    },
+    "email": "jane.doe@example.com",
+    "vehicle": {
+      "color": "Red",
+      "plate": "XYZ 1234",
+      "capacity": 4,
+      "vehicleType": "car"
+    }
+    // other fields...
+  }
+}
+```
+
+---
+
+## /captains/logout Endpoint Documentation
+
+- **URL:** `GET /captains/logout`
+- **Description:** This endpoint logs out the authenticated captain. It clears the authentication cookie and blacklists the current token, preventing further use.
+
+### Requirements
+
+- Requires authentication via `authMiddleware.authCaptain`.
+
+### Responses
+
+- **Success (200 OK):**
+  - Returns a JSON message confirming that the captain has been logged out.
+
+### Example Request
+
+```
+GET /captains/logout
+Authorization: Bearer <JWT Token>
+```
+
+### Example Response
+
+```
+{
+  "message": "Logout successfully"
+}
+```
