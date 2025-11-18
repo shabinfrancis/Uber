@@ -8,7 +8,6 @@ const UserSignup = () => {
   const [lastName, setLastName] = useState('')
   const [userData, setUserData] = useState({})
 
-
   const submitHandler = (e) => {
     e.preventDefault();
     setUserData({
