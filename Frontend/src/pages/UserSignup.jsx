@@ -87,7 +87,7 @@ const UserSignup = () => {
       </div>
       <div>
         <Link
-          to='/captain-login'
+          to='/captain-signup'
           className='flex items-center justify-center w-full bg-[#FFBD5B] text-white py-3 rounded mt-5 mb-5 font-semibold'>
           Sign up as Captain
         </Link>
