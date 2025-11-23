@@ -42,9 +42,9 @@ function App() {
             }
           />
           <Route path='/captain/logout' element={
-            // <CaptainProtectWrapper>
+            <CaptainProtectWrapper>
               <CaptainLogout />
-            // </CaptainProtectWrapper>
+            </CaptainProtectWrapper>
           } />
         </Routes>
       </div>
