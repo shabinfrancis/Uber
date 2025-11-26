@@ -1,19 +1,9 @@
-// import React from 'react'
-
-// const Home = () => {
-//   return (
-//     <div>Home</div>
-//   )
-// }
-
-// export default Home
-
 import React, { useEffect, useRef, useState } from 'react'
-// import { useGSAP } from '@gsap/react';
-// import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
 import axios from 'axios';
-// import 'remixicon/fonts/remixicon.css'
-// import LocationSearchPanel from '../components/LocationSearchPanel';
+import 'remixicon/fonts/remixicon.css'
+import LocationSearchPanel from '../components/LocationSearchPanel';
 // import VehiclePanel from '../components/VehiclePanel';
 // import ConfirmRide from '../components/ConfirmRide';
 // import LookingForDriver from '../components/LookingForDriver';
@@ -104,27 +94,27 @@ const Home = () => {
         e.preventDefault()
     }
 
-    // useGSAP(function () {
-    //     if (panelOpen) {
-    //         gsap.to(panelRef.current, {
-    //             height: '70%',
-    //             padding: 24
-    //             // opacity:1
-    //         })
-    //         gsap.to(panelCloseRef.current, {
-    //             opacity: 1
-    //         })
-    //     } else {
-    //         gsap.to(panelRef.current, {
-    //             height: '0%',
-    //             padding: 0
-    //             // opacity:0
-    //         })
-    //         gsap.to(panelCloseRef.current, {
-    //             opacity: 0
-    //         })
-    //     }
-    // }, [ panelOpen ])
+    useGSAP(function () {
+        if (panelOpen) {
+            gsap.to(panelRef.current, {
+                height: '70%',
+                padding: 24
+                // opacity:1
+            })
+            gsap.to(panelCloseRef.current, {
+                opacity: 1
+            })
+        } else {
+            gsap.to(panelRef.current, {
+                height: '0%',
+                padding: 0
+                // opacity:0
+            })
+            gsap.to(panelCloseRef.current, {
+                opacity: 0
+            })
+        }
+    }, [ panelOpen ])
 
 
     // useGSAP(function () {
@@ -212,6 +202,7 @@ const Home = () => {
             <img className='w-16 absolute left-5 top-5' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
             <div className='h-screen w-screen'>
                 {/* image for temporary use  */}
+                <img className='h-full w-full object-cover' src="https://www.google.com/imgres?q=uber%20design%20map&imgurl=https%3A%2F%2Fbaseweb.design%2F_next%2Fstatic%2Fmedia%2Fcover.09f893aa.png&imgrefurl=https%3A%2F%2Fbaseweb.design%2Fblog%2Fintroducing-base-map-markers%2F&docid=1btVdPaLVxsgXM&tbnid=qXeAkfepIAD_TM&vet=12ahUKEwi3rvX-2o-RAxUJSWwGHVmlF04QM3oECBoQAA..i&w=1600&h=800&hcb=2&ved=2ahUKEwi3rvX-2o-RAxUJSWwGHVmlF04QM3oECBoQAA" />
                 {/* <LiveTracking /> */}
             </div>
             <div className=' flex flex-col justify-end h-screen absolute top-0 w-full'>
@@ -254,7 +245,7 @@ const Home = () => {
                         Find Trip
                     </button>
                 </div>
-                {/* <div ref={panelRef} className='bg-white h-0'>
+                <div ref={panelRef} className='bg-white h-0'>
                     <LocationSearchPanel
                         suggestions={activeField === 'pickup' ? pickupSuggestions : destinationSuggestions}
                         setPanelOpen={setPanelOpen}
@@ -263,7 +254,7 @@ const Home = () => {
                         setDestination={setDestination}
                         activeField={activeField}
                     />
-                </div> */}
+                </div> 
             </div>
             {/* <div ref={vehiclePanelRef} className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12'>
                 <VehiclePanel
