@@ -4,7 +4,7 @@ import gsap from 'gsap';
 import axios from 'axios';
 import 'remixicon/fonts/remixicon.css'
 import LocationSearchPanel from '../components/LocationSearchPanel';
-// import VehiclePanel from '../components/VehiclePanel';
+import VehiclePanel from '../components/VehiclePanel';
 // import ConfirmRide from '../components/ConfirmRide';
 // import LookingForDriver from '../components/LookingForDriver';
 // import WaitingForDriver from '../components/WaitingForDriver';
@@ -117,17 +117,17 @@ const Home = () => {
     }, [ panelOpen ])
 
 
-    // useGSAP(function () {
-    //     if (vehiclePanel) {
-    //         gsap.to(vehiclePanelRef.current, {
-    //             transform: 'translateY(0)'
-    //         })
-    //     } else {
-    //         gsap.to(vehiclePanelRef.current, {
-    //             transform: 'translateY(100%)'
-    //         })
-    //     }
-    // }, [ vehiclePanel ])
+    useGSAP(function () {
+        if (vehiclePanel) {
+            gsap.to(vehiclePanelRef.current, {
+                transform: 'translateY(0)'
+            })
+        } else {
+            gsap.to(vehiclePanelRef.current, {
+                transform: 'translateY(100%)'
+            })
+        }
+    }, [ vehiclePanel ]) 
 
     // useGSAP(function () {
     //     if (confirmRidePanel) {
@@ -198,7 +198,7 @@ const Home = () => {
     }
 
     return (
-        <div className='h-screen relative overflow-hidden'>
+        <div className='h-screen relative overflow-x-hidden'>
             <img className='w-16 absolute left-5 top-5' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
             <div className='h-screen w-screen'>
                 {/* image for temporary use  */}
@@ -256,11 +256,11 @@ const Home = () => {
                     />
                 </div> 
             </div>
-            {/* <div ref={vehiclePanelRef} className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12'>
+            <div ref={vehiclePanelRef} className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12'>
                 <VehiclePanel
                     selectVehicle={setVehicleType}
                     fare={fare} setConfirmRidePanel={setConfirmRidePanel} setVehiclePanel={setVehiclePanel} />
-            </div> */}
+            </div>
             {/* <div ref={confirmRidePanelRef} className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-6 pt-12'>
                 <ConfirmRide
                     createRide={createRide}
