@@ -5,7 +5,7 @@ import axios from 'axios';
 import 'remixicon/fonts/remixicon.css'
 import LocationSearchPanel from '../components/LocationSearchPanel';
 import VehiclePanel from '../components/VehiclePanel';
-// import ConfirmRide from '../components/ConfirmRide';
+import ConfirmRide from '../components/ConfirmRide';
 // import LookingForDriver from '../components/LookingForDriver';
 // import WaitingForDriver from '../components/WaitingForDriver';
 // import { SocketContext } from '../context/SocketContext';
@@ -129,17 +129,17 @@ const Home = () => {
         }
     }, [ vehiclePanel ]) 
 
-    // useGSAP(function () {
-    //     if (confirmRidePanel) {
-    //         gsap.to(confirmRidePanelRef.current, {
-    //             transform: 'translateY(0)'
-    //         })
-    //     } else {
-    //         gsap.to(confirmRidePanelRef.current, {
-    //             transform: 'translateY(100%)'
-    //         })
-    //     }
-    // }, [ confirmRidePanel ])
+    useGSAP(function () {
+        if (confirmRidePanel) {
+            gsap.to(confirmRidePanelRef.current, {
+                transform: 'translateY(0)'
+            })
+        } else {
+            gsap.to(confirmRidePanelRef.current, {
+                transform: 'translateY(100%)'
+            })
+        }
+    }, [ confirmRidePanel ])
 
     // useGSAP(function () {
     //     if (vehicleFound) {
@@ -261,7 +261,7 @@ const Home = () => {
                     selectVehicle={setVehicleType}
                     fare={fare} setConfirmRidePanel={setConfirmRidePanel} setVehiclePanel={setVehiclePanel} />
             </div>
-            {/* <div ref={confirmRidePanelRef} className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-6 pt-12'>
+            <div ref={confirmRidePanelRef} className='fixed w-[90%] z-10 bottom-0 translate-y-full bg-white p-6 pt-12'>
                 <ConfirmRide
                     createRide={createRide}
                     pickup={pickup}
@@ -270,7 +270,7 @@ const Home = () => {
                     vehicleType={vehicleType}
 
                     setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound} />
-            </div> */}
+            </div>
             {/* <div ref={vehicleFoundRef} className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-6 pt-12'>
                 <LookingForDriver
                     createRide={createRide}
