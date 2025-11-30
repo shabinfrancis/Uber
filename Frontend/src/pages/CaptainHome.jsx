@@ -2,8 +2,8 @@ import React, { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import CaptainDetails from '../components/CaptainDetails'
 import RidePopUp from '../components/RidePopUp'
-// import { useGSAP } from '@gsap/react'
-// import gsap from 'gsap'
+import { useGSAP } from '@gsap/react'
+import gsap from 'gsap'
 // import ConfirmRidePopUp from '../components/ConfirmRidePopUp'
 import { useEffect, useContext } from 'react'
 // import { SocketContext } from '../context/SocketContext'
@@ -75,17 +75,17 @@ const CaptainHome = () => {
     }
 
 
-    // useGSAP(function () {
-    //     if (ridePopupPanel) {
-    //         gsap.to(ridePopupPanelRef.current, {
-    //             transform: 'translateY(0)'
-    //         })
-    //     } else {
-    //         gsap.to(ridePopupPanelRef.current, {
-    //             transform: 'translateY(100%)'
-    //         })
-    //     }
-    // }, [ ridePopupPanel ])
+    useGSAP(function () {
+        if (ridePopupPanel) {
+            gsap.to(ridePopupPanelRef.current, {
+                transform: 'translateY(0)'
+            })
+        } else {
+            gsap.to(ridePopupPanelRef.current, {
+                transform: 'translateY(100%)'
+            })
+        }
+    }, [ ridePopupPanel ])
 
     // useGSAP(function () {
     //     if (confirmRidePopupPanel) {
