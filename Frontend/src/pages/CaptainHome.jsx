@@ -4,7 +4,7 @@ import CaptainDetails from '../components/CaptainDetails'
 import RidePopUp from '../components/RidePopUp'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
-// import ConfirmRidePopUp from '../components/ConfirmRidePopUp'
+import ConfirmRidePopUp from '../components/ConfirmRidePopUp'
 import { useEffect, useContext } from 'react'
 // import { SocketContext } from '../context/SocketContext'
 import { CaptainDataContext } from '../context/CaptainContext'
@@ -87,17 +87,17 @@ const CaptainHome = () => {
         }
     }, [ ridePopupPanel ])
 
-    // useGSAP(function () {
-    //     if (confirmRidePopupPanel) {
-    //         gsap.to(confirmRidePopupPanelRef.current, {
-    //             transform: 'translateY(0)'
-    //         })
-    //     } else {
-    //         gsap.to(confirmRidePopupPanelRef.current, {
-    //             transform: 'translateY(100%)'
-    //         })
-    //     }
-    // }, [ confirmRidePopupPanel ])
+    useGSAP(function () {
+        if (confirmRidePopupPanel) {
+            gsap.to(confirmRidePopupPanelRef.current, {
+                transform: 'translateY(0)'
+            })
+        } else {
+            gsap.to(confirmRidePopupPanelRef.current, {
+                transform: 'translateY(100%)'
+            })
+        }
+    }, [ confirmRidePopupPanel ])
 
     return (
         <div className='h-screen'>
@@ -122,12 +122,12 @@ const CaptainHome = () => {
                     confirmRide={confirmRide}
                 />
             </div>
-            {/* <div ref={confirmRidePopupPanelRef} className='fixed w-full h-screen z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12'>
+            <div ref={confirmRidePopupPanelRef} className='fixed w-full h-screen z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12'>
                 <ConfirmRidePopUp
                     ride={ride}
                     setConfirmRidePopupPanel={setConfirmRidePopupPanel} setRidePopupPanel={setRidePopupPanel} 
                 />
-            </div> */}
+            </div>
         </div>
     )
 }
