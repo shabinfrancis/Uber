@@ -14,7 +14,7 @@ const rideSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    destination: {
+    drop: {
         type: String,
         required: true
     },
