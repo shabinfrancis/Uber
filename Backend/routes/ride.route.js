@@ -6,15 +6,15 @@ const {query, body} = require('express-validator');
 
 router.post('/create',
     authMiddleware.authUser,
-    body('pickup').isString().isLength({min: 3}.withMessage('Invalid pickup address')),
+    body('pickup').isString().isLength({min: 3}).withMessage('Invalid pickup address'),
     body('destination').isString().isLength({min: 3}).withMessage('Invalid destination address'),
     body('vehicleType').isString().isLength({min: 3}).withMessage('Invalid vehicle type'),
-    
+    rideController.createRide
 )
 
 router.get('/get-fare',
     authMiddleware.authUser,
-    query('pickup').isString().isLength({min: 3}.withMessage('Invalid pickup address')),
+    query('pickup').isString().isLength({min: 3}).withMessage('Invalid pickup address'),
     query('destination').isString().isLength({min: 3}).withMessage('Invalid destination address'),
     rideController.getFare
 )
@@ -22,22 +22,20 @@ router.get('/get-fare',
 router.post('/confirm',
     authMiddleware.authCaptain,
     body('rideId').isMongoId().withMessage('Invalid ride id'),
-
+    rideController.confirmRide
 )
 
 router.get('start-ride',
     authMiddleware.authCaptain,
     query('rideId').isMongoId().withMessage('Invalid ride id'),
     query('otp').isString().isLength({min: 6, max: 6}).withMessage('invalid OTP'),
-
+    rideController.startRide
 )
 
 router.post('/end-ride',
     authMiddleware.authCaptain,
     body('rideId').isMongoId().withMessage('Invalid ride id'),
-    
+    rideController.endRide
 )
-
-
 
 module.exports = router;

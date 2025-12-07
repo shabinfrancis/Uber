@@ -1,4 +1,5 @@
 const axios = require('axios');
+const captainModel = require('../models/captain.model');
 
 /**
  * Get coordinates (latitude, longitude) for a given address using Mapbox Geocoding API.
@@ -85,4 +86,15 @@ module.exports.getAutoCompleteSuggestions = async (input) => {
 	} catch (err) {
 		throw new Error('Failed to get autocomplete suggestions: ' + err.message);
 	}
+}
+
+module.exports.getCaptainsInTheRadius = async (ltd, lang, radius) => {
+	const captains = await captainModel.find({
+		location: {
+			$geoWithin: {
+				$centerSphere: [[ltd, lang], radius / 6371]
+			}
+		}
+	});
+	return captains;
 }

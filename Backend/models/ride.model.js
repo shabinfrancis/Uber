@@ -14,7 +14,7 @@ const rideSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    drop: {
+    destination: {
         type: String,
         required: true
     },
@@ -30,7 +30,7 @@ const rideSchema = new mongoose.Schema({
         type: Number  //in seconds
     },
     distance: {
-        type: number  //in meters
+        type: Number  //in meters
     },
     paymentId: {
         type: String
