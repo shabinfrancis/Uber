@@ -407,3 +407,102 @@ Authorization: Bearer <JWT Token>
   "message": "Logout successfully"
 }
 ```
+
+
+---
+
+# /rides Endpoint Documentation
+
+This section documents the `/rides` endpoints, including descriptions, required data, and status codes.
+
+## POST /rides/create
+
+- **Description:** Create a new ride request for a user.
+- **Authentication:** Requires user authentication (`authMiddleware.authUser`).
+- **Request Body:**
+  - `pickup` (string, required): Pickup address, min 3 characters.
+  - `destination` (string, required): Destination address, min 3 characters.
+  - `vehicleType` (string, required): Vehicle type, min 3 characters.
+- **Response:**
+  - **201 Created:** Returns the created ride object.
+  - **400 Bad Request:** Validation errors (invalid/missing fields).
+  - **500 Internal Server Error:** Server or map API errors.
+
+**Example Request:**
+```json
+{
+  "pickup": "123 Main St",
+  "destination": "456 Elm St",
+  "vehicleType": "car"
+}
+```
+
+## GET /rides/get-fare
+
+- **Description:** Get fare estimates for a ride between two addresses.
+- **Authentication:** Requires user authentication (`authMiddleware.authUser`).
+- **Query Parameters:**
+  - `pickup` (string, required): Pickup address, min 3 characters.
+  - `destination` (string, required): Destination address, min 3 characters.
+- **Response:**
+  - **200 OK:** Returns fare estimates for each vehicle type.
+  - **400 Bad Request:** Validation errors.
+  - **500 Internal Server Error:** Map API or calculation errors.
+
+**Example Request:**
+```
+GET /rides/get-fare?pickup=123+Main+St&destination=456+Elm+St
+```
+
+## POST /rides/confirm
+
+- **Description:** Captain confirms a ride assignment.
+- **Authentication:** Requires captain authentication (`authMiddleware.authCaptain`).
+- **Request Body:**
+  - `rideId` (string, required): MongoDB ride ID.
+- **Response:**
+  - **200 OK:** Returns the updated ride object.
+  - **400 Bad Request:** Validation errors.
+  - **500 Internal Server Error:** Server errors.
+
+**Example Request:**
+```json
+{
+  "rideId": "656f1c2e8b3c2a0012345678"
+}
+```
+
+## GET /rides/start-ride
+
+- **Description:** Captain starts a ride after OTP verification.
+- **Authentication:** Requires captain authentication (`authMiddleware.authCaptain`).
+- **Query Parameters:**
+  - `rideId` (string, required): MongoDB ride ID.
+  - `otp` (string, required): 6-character OTP.
+- **Response:**
+  - **200 OK:** Returns the ride object if OTP is valid.
+  - **400 Bad Request:** Validation errors (invalid ride ID or OTP).
+  - **500 Internal Server Error:** Server errors.
+
+**Example Request:**
+```
+GET /rides/start-ride?rideId=656f1c2e8b3c2a0012345678&otp=123456
+```
+
+## POST /rides/end-ride
+
+- **Description:** Captain ends a ride.
+- **Authentication:** Requires captain authentication (`authMiddleware.authCaptain`).
+- **Request Body:**
+  - `rideId` (string, required): MongoDB ride ID.
+- **Response:**
+  - **200 OK:** Returns the completed ride object.
+  - **400 Bad Request:** Validation errors.
+  - **500 Internal Server Error:** Server errors.
+
+**Example Request:**
+```json
+{
+  "rideId": "656f1c2e8b3c2a0012345678"
+}
+```
