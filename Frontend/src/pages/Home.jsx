@@ -175,13 +175,28 @@ const Home = () => {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }
-        })
-
-
+        }) 
+        console.log(response.data)
         setFare(response.data)
-
-
     }
+
+    // async function findTrip() {
+    //     setPanelOpen(false);
+    //     // Show loading indicator if needed
+    //     setFare({ loading: true });
+    //     try {
+    //         const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/get-fare`, {
+    //             params: { pickup, destination },
+    //             headers: {
+    //                 Authorization: `Bearer ${localStorage.getItem('token')}`
+    //             }
+    //         });
+    //         setFare(response.data);
+    //         setVehiclePanel(true);
+    //     } catch (err) {
+    //         // Optionally show error to user
+    //     }
+    // }
 
     async function createRide() {
         const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/create`, {
@@ -202,7 +217,7 @@ const Home = () => {
             <img className='w-16 absolute left-5 top-5' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
             <div className='h-screen w-screen'>
                 {/* image for temporary use  */}
-                <img className='h-full w-full object-cover' src="https://www.google.com/imgres?q=uber%20design%20map&imgurl=https%3A%2F%2Fbaseweb.design%2F_next%2Fstatic%2Fmedia%2Fcover.09f893aa.png&imgrefurl=https%3A%2F%2Fbaseweb.design%2Fblog%2Fintroducing-base-map-markers%2F&docid=1btVdPaLVxsgXM&tbnid=qXeAkfepIAD_TM&vet=12ahUKEwi3rvX-2o-RAxUJSWwGHVmlF04QM3oECBoQAA..i&w=1600&h=800&hcb=2&ved=2ahUKEwi3rvX-2o-RAxUJSWwGHVmlF04QM3oECBoQAA" />
+                <img className='h-full w-full object-cover' src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif" alt="" />
                 {/* <LiveTracking /> */}
             </div>
             <div className=' flex flex-col justify-end h-screen absolute top-0 w-full'>
@@ -285,7 +300,7 @@ const Home = () => {
                     selectVehicle={setVehicleType}
                     fare={fare} setConfirmRidePanel={setConfirmRidePanel} setVehiclePanel={setVehiclePanel} />
             </div>
-            <div ref={confirmRidePanelRef} className='fixed w-[90%] z-10 bottom-0 translate-y-full bg-white p-6 pt-12'>
+            <div ref={confirmRidePanelRef} className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-6 pt-12'>
                 <ConfirmRide
                     createRide={createRide}
                     pickup={pickup}
@@ -304,7 +319,7 @@ const Home = () => {
                     vehicleType={vehicleType}
                     setVehicleFound={setVehicleFound} />
             </div>
-            <div ref={waitingForDriverRef} className='fixed w-[92%]  z-10 bottom-0  bg-white py-6 pt-12'>
+            <div ref={waitingForDriverRef} className='fixed w-full z-10 bottom-0  bg-white py-6 pt-12'>
                 <WaitingForDriver
                     ride={ride}
                     setVehicleFound={setVehicleFound}
