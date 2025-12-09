@@ -3,6 +3,7 @@ const rideService = require('../services/ride.service');
 const mapService = require('../services/map.service');
 const rideModel = require('../models/ride.model');
 const { getAddressCoordinate } = require('../services/map.service');
+const { sendMessageToSocketId } = require('../socket');
 
 module.exports.getFare = async (req, res) => {
     const errors = validationResult(req);
@@ -28,15 +29,25 @@ module.exports.createRide = async (req, res) => {
     const { user, pickup, destination, vehicleType } = req.body;
 
     try {
-        const ride = await rideService.createRide({ user: req.user._id, pickup, destination, vehicleType });
+        const ride = await rideService.createRide({ user: req.user?._id, pickup, destination, vehicleType });
         console.log(ride.user);
         res.status(201).json(ride);
         const pickupCoordinates = await mapService.getAddressCoordinate(pickup)
-        // const captainsInTheRadius = await mapService.getCaptainsInTheRadius(pickupCoordinates.ltd, pickupCoordinates.lang, 2);
+        const captainsInTheRadius = await mapService.getCaptainsInTheRadius(pickupCoordinates.ltd, pickupCoordinates.lang, 2);
 
         ride.otp = "";
 
-        // const rideWithUser = await rideModel.findOne({ _id: ride._id }).populate('user');
+        const rideWithUser = await rideModel.findOne({ _id: ride._id }).populate('user');
+
+        captainsInTheRadius.map(captain => {
+
+            sendMessageToSocketId(captain.socketId, {
+                event: 'new-ride',
+                data: rideWithUser
+            })
+
+        })
+
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: error.message })
@@ -54,6 +65,10 @@ module.exports.confirmRide = async (req, res) => {
 
     try {
         const ride = await rideService.confirmRide({ rideId, captain: req.captain });
+        sendMessageToSocketId(ride.user.socketId, {
+            event: 'ride-confirmed',
+            data: ride
+        })
         return res.status(200).json(ride);
     } catch (error) {
         console.log(error);
@@ -72,6 +87,10 @@ module.exports.startRide = async (req, res) => {
 
     try {
         const ride = await rideService.confirmRide({ rideId, otp, captain: req.captain });
+        sendMessageToSocketId(ride.user.socketId, {
+            event: 'ride-started',
+            data: ride
+        })
         console.log(ride);
         return res.status(200).json(ride);
     } catch (error) {
@@ -91,6 +110,10 @@ module.exports.endRide = async (req, res) => {
 
     try {
         const ride = await rideService.confirmRide({ rideId, captain: req.captain });
+        sendMessageToSocketId(ride.user.socketId, {
+            event: 'ride-ended',
+            data: ride
+        })
         return res.status(200).json(ride);
     } catch (error) {
         console.log(error);
